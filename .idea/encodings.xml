@@ -2,9 +2,10 @@
 <project version="4">
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/chatserver/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/discovery-server/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/untitled/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/video-call-server/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/videocallserver/src/main/java" charset="UTF-8" />
   </component>
 </project>

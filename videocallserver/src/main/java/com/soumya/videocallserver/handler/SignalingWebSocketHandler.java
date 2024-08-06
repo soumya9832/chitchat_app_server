@@ -2,7 +2,11 @@ package com.soumya.videocallserver.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.firebase.messaging.Notification;
 import com.soumya.videocallserver.model.UserSession;
+import com.soumya.videocallserver.service.FcmTokenService;
+import com.soumya.videocallserver.service.NotificationService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -10,15 +14,19 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
+@AllArgsConstructor
 public class SignalingWebSocketHandler extends TextWebSocketHandler {
     private static final List<UserSession> users = new ArrayList<>();
     public static final Map<WebSocketSession,String> sessionUserMap = new ConcurrentHashMap<>();
     private final ObjectMapper objectMapper = new ObjectMapper();
+    private FcmTokenService fcmTokenService;
+    private NotificationService notificationService;
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -94,10 +102,10 @@ public class SignalingWebSocketHandler extends TextWebSocketHandler {
         String sdp = (String) ((Map) messageMap.get("data")).get("sdp");
 
 
-
         UserSession userToReceiveOffer = findUser(target);
 
         if(userToReceiveOffer!=null){
+            /*
             ObjectNode response = objectMapper.createObjectNode();
             response.put("type", "OFFER_RECEIVED");
             response.put("name", name);
@@ -105,9 +113,16 @@ public class SignalingWebSocketHandler extends TextWebSocketHandler {
 
             userToReceiveOffer.getSession().sendMessage(new TextMessage(objectMapper.writeValueAsString(response)));
 
+             */
+
+            String fcmToken= String.valueOf(fcmTokenService.getFcmToken(target));
+            Map<String,String> data = new HashMap<>();
+            data.put("type","OFFER_RECEIVED");
+            data.put("name",name);
+            data.put("sdp",sdp);
+
+            notificationService.sendCallNotification(fcmToken, "Incoming Video Call", name + " is calling you",data);
         }
-
-
     }
 
 

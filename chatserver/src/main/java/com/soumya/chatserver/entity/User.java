@@ -22,4 +22,5 @@ public class User {
     private String userName;
     private String imageUrl;
     private Status status;
+    private String fcmToken;
 }

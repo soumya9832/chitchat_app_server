@@ -4,6 +4,7 @@ import com.soumya.chatserver.entity.User;
 import com.soumya.chatserver.service.UserService;
 import com.soumya.chatserver.util.Status;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
 @RequestMapping("/api")
 public class UserRestController {
     private final UserService service;
-    public static User USER_NAME_TAKEN = new User(-1,"userName Taken","", Status.OFFLINE);
+    public static User USER_NAME_TAKEN = new User(-1,"userName Taken","", Status.OFFLINE,null);
 
     @GetMapping("/users")
     public List<User> findAll() {
@@ -36,7 +37,6 @@ public class UserRestController {
     }
 
     // mapping for delete user with id
-
     @DeleteMapping("/users/{userId}")
     public String deleteUser(@PathVariable int userId) {
 
@@ -53,12 +53,22 @@ public class UserRestController {
 
 
     // mapping for put, update existing users
-
     @PutMapping("/users")
     public User updateUser(@RequestBody User user) {
 
         service.saveUser(user);
         return user;
+    }
+
+    // mapping for get fcm-token of a specific user
+    @GetMapping("/{username}/fcm-token")
+    public ResponseEntity<String> getFcmToken(@PathVariable String username){
+        String fcmToken = service.getFcmTokenByUsername(username);
+        if(fcmToken!=null){
+            return ResponseEntity.ok(fcmToken);
+        }else{
+            return ResponseEntity.notFound().build();
+        }
     }
 
 

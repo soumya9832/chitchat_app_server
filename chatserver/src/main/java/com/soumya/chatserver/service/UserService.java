@@ -52,8 +52,13 @@ public class UserService {
     }
 
     public void deleteById(int id) {
-
         repository.deleteById(id);
+    }
+
+
+    public String getFcmTokenByUsername(String username){
+        User user = repository.findByUserName(username);
+        return user!=null?user.getFcmToken():null;
     }
 
 

@@ -7,7 +7,8 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="chatserver" />
-        <module name="video-call-server" />
+        <module name="videocallserver" />
+        <module name="discovery-server" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -17,8 +18,9 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="chatserver" options="-parameters" />
+      <module name="discovery-server" options="-parameters" />
       <module name="untitled" options="-parameters" />
-      <module name="video-call-server" options="-parameters" />
+      <module name="videocallserver" options="-parameters" />
     </option>
   </component>
 </project>
